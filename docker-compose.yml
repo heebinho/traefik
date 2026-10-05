@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   traefik:
-    image: traefik:v3.1
+    image: traefik:v3  # Upgraded to fetch the latest v3 release
     container_name: traefik
     restart: unless-stopped
     security_opt:
@@ -12,15 +12,14 @@ services:
       - "443:443"
       - "8080:8080"
     environment:
-      # Portainer will substitute these from its UI environment variables
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      - DOCKER_API_VERSION=1.40  # Forces Docker client to use modern API
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      # Let's Encrypt DNS Challenge (Cloudflare)
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.email=${ACME_EMAIL}"
