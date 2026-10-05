@@ -15,6 +15,7 @@ services:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - DOCKER_API_VERSION=1.40  # Forces Docker client to use modern API
     command:
+      - "--log.level=INFO"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
